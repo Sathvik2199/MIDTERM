@@ -25,4 +25,4 @@ class Calculation:
 
     def __repr__(self) -> str:
         """ Returns a string representation of the Calculation instance. """
-        return f"Calculation({self.a}, {self.b}, {self.operation._name_})"
+        return f"Calculation({self.a}, {self.b}, {self.operation.__name__})"

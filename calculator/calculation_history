@@ -1,28 +1,33 @@
-"""
-This module defines the Calculation class. The Calculation class supports the creation of
-calculation instances and executing the operation to obtain the result.
-"""
-from decimal import Decimal
-from typing import Callable
+import pandas as pd
+import os
 
-class Calculation:
-    """ Represents an arithmetic calculation involving two Decimal numbers."""
+class CalculationHistory:
+    """A class to manage the calculation history, storing operations, operands, and results."""
 
-    def __init__(self, a: Decimal, b: Decimal, operation: Callable[[Decimal, Decimal], Decimal]):
-        """ Initializes a Calculation object with two operands and an operation. """
-        self.a = a
-        self.b = b
-        self.operation = operation
+    def __init__(self, filename='calculation_history.csv'):
+        """Initialize the CalculationHistory with a filename and load existing history if it exists."""
+        self.filename = filename
+        self.history = pd.DataFrame(columns=['operation', 'operands', 'result'])
 
-    @staticmethod
-    def create(a: Decimal, b: Decimal, operation: Callable[[Decimal, Decimal], Decimal]):
-        """ Factory method to create a new Calculation instance."""
-        return Calculation(a, b, operation)
+        # Load existing history if the file exists
+        if os.path.exists(self.filename):
+            self.history = pd.read_csv(self.filename)
 
-    def perform(self) -> Decimal:
-        """ Executes the operation on the two operands. """
-        return self.operation(self.a, self.b)
+    def add_entry(self, operation, operands, result):
+        """Add a new entry to the calculation history."""
+        # Store operands as a string
+        operands_str = str(operands)  # Convert tuple to string
+        new_entry = pd.DataFrame({'operation': [operation], 'operands': [operands_str], 'result': [result]})
+        self.history = pd.concat([self.history, new_entry], ignore_index=True)
 
-    def __repr__(self) -> str:
-        """ Returns a string representation of the Calculation instance. """
-        return f"Calculation({self.a}, {self.b}, {self.operation._name_})"
+    def save_history(self):
+        """Save the current history to a CSV file."""
+        self.history.to_csv(self.filename, index=False)
+
+    def clear_history(self):
+        """Clear the calculation history."""
+        self.history = pd.DataFrame(columns=['operation', 'operands', 'result'])
+
+    def show_history(self):
+        """Return the current calculation history as a DataFrame."""
+        return self.history

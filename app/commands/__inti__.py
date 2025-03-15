@@ -14,7 +14,7 @@ class Command(ABC):
 
 class CommandHandler:
     """Handles the registration and execution of commands."""
-    def _init_(self):
+    def __init__(self):
         self.commands = {}
 
     def register_command(self, operation, command):

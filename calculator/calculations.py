@@ -30,4 +30,4 @@ class Calculations:
     @classmethod
     def find_by_operation(cls, operation_name: str) -> List[Calculation]:
         """ Finds all calculations that use a specific operation. """
-        return [calc for calc in cls.history if calc.operation.name_ == operation_name]
+        return [calc for calc in cls._history if calc.operation.__name__ == operation_name]
