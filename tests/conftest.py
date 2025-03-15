@@ -1,6 +1,14 @@
 from decimal import Decimal
 from faker import Faker
+
+import sys
+import os
+
+# Add project root directory to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from calculator.operations import add, subtract, multiply, divide
+
 
 # Initialize Faker
 fake = Faker()
