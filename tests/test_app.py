@@ -29,7 +29,7 @@ def test_app_start_unknown_command(capfd, monkeypatch):
         app.start()
     # Verify that the unknown command was handled as expected
     captured = capfd.readouterr()
-    assert "No such command: unknown_command" in captured.out
+    assert "Unknown command: unknown_command" in captured.out
 
 
 # Test CommandHandler functionality with various commands
@@ -131,5 +131,5 @@ def test_execute_nonexistent_command():
     result = handler.execute_command("nonexistent")
 
     # Assert that the result matches the expected error message
-    expected_message = "No such command: nonexistent"
+    expected_message = "Unknown command: nonexistent"
     assert result == expected_message
